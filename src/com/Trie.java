@@ -33,6 +33,8 @@ public class Trie {
 				return new ArrayList<String>();      
 		} 
 		helper(node, res, prefix.substring(0, prefix.length()-1));
+//		for(String s: res)
+//			System.out.println(s);
 		return res;
 	}
 
@@ -44,20 +46,27 @@ public class Trie {
 			helper(child, res, prefix + node.data);						
 	}
 
-	public static void autoCompleteWord(String keyword, PreSearch ps, int numberOfResults) {
-		Trie trie = getFilledTrie(ps);
-		List<?> phraseList=trie.autoComplete(keyword);
-		String phrase=(String) phraseList.get(0);
-		System.out.println("Word autocompleted to : "+phrase);
-		Iterator<Entry<String,HashSet<Integer>>> iterator = ps.index.entrySet().iterator();
-		while(iterator.hasNext()) {  			
-			Map.Entry<String, HashSet<Integer>> me = (Map.Entry<String, HashSet<Integer>>)iterator.next();
-			String word = me.getKey().toString();
-			if(phrase.equalsIgnoreCase(word)) {
-				Search.searchPhrase(word,numberOfResults);
+	public static void autoCompleteWord(String keyword, PreSearch ps, int numberOfResults, int flag) {
+		if(flag==1) {
+			Trie trie = getFilledTrie(ps);
+			List<?> phraseList=trie.autoComplete(keyword);
+			try{
+				String phrase=(String) phraseList.get(0);
+				System.out.println("Word autocompleted to : "+phrase);
+				Iterator<Entry<String,HashSet<Integer>>> iterator = ps.index.entrySet().iterator();
+				while(iterator.hasNext()) {  			
+					Map.Entry<String, HashSet<Integer>> me = (Map.Entry<String, HashSet<Integer>>)iterator.next();
+					String word = me.getKey().toString();
+					if(phrase.equalsIgnoreCase(word)) {
+						Search.searchPhrase(word,numberOfResults);
+					}
+				}
+				SearchSimillarWords.searchSimillar(phrase,numberOfResults,ps,2);
+			} catch (IndexOutOfBoundsException e) {
+				Search.flag=2;
+				SearchSimillarWords.searchSimillar(keyword,numberOfResults,ps,2);
 			}
 		}
-		SearchSimillarWords.searchSimillar(phrase,numberOfResults,ps);
 	}
 
 	public static Trie getFilledTrie(PreSearch ps) {

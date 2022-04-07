@@ -146,8 +146,7 @@ public class WebCrawler {
 	}
 
 	public static void crawlDefault() {
-		//String links="https://www.cbc.ca/"+"\n"+"https://www.bbc.com/news/world/us_and_canada"+"\n"+"https://www.ctvnews.ca/"+"\n"+"https://www.cicnews.com/";
-		String links="https://windsor.ctvnews.ca/"+"\n"+"https://toronto.ctvnews.ca/"+"\n"+"https://london.ctvnews.ca/";
+		String links="https://www.cbc.ca/"+"\n"+"https://www.bbc.com/news/world/us_and_canada"+"\n"+"https://www.cicnews.com/";
 		crawlPages(links);
 	}
 

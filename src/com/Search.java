@@ -5,6 +5,8 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public class Search {
+	
+	public static int flag=1;
 	//Searches for a phrase in the files using InvertedIndex createdy by PreSearch.java.
 	public static void searchPhrase(String keyword,int numberOfResults) {
 		PreSearch ps = new PreSearch();
@@ -12,8 +14,8 @@ public class Search {
 		ArrayList<String> as = ps.find(phrase);
 		phrase = phrase.toLowerCase();
 		if(as==null) {
-			Trie.autoCompleteWord(phrase,ps,numberOfResults);
-			//SearchSimillarWords.searchSimillar(phrase,numberOfResults,ps);
+			Trie.autoCompleteWord(phrase,ps,numberOfResults,flag);
+			//SearchSimillarWords.searchSimillar(phrase,numberOfResults,ps,flag);
 		}
 		else {		
 			Map<String,Integer> sortedMap = SortResultsByRank.sortByRank(as, phrase);

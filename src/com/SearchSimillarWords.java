@@ -18,30 +18,31 @@ public class SearchSimillarWords {
 				indexDistance.put(word, distance);				
 			}
 		}
-		
+
 		HashMap<String,Integer> sortedDistance = SortResultsByRank.sortValues(indexDistance);
 		return sortedDistance;
 	}
-	
+
 	//Searches for similar words in the database.
-	public static void searchSimillar(String keyword,int numberofResults,PreSearch ps) {		
-		HashMap<String,Integer> sortedDistance = sortByEditDistance(keyword,ps);
-		Iterator<Entry<String, Integer>> iterator2 = sortedDistance.entrySet().iterator();  
-		while(iterator2.hasNext())   
-		{  			
-			Map.Entry<String, Integer> me = (Map.Entry<String, Integer>)iterator2.next();
-			String word = me.getKey().toString();			
-			System.out.println("Instead showing results for : "+word);
-			
-			//Searching for the word with lowest distance.
-			Map<String,Integer> sortedMap;
-			ArrayList<String> as = ps.find(word);
-			String phrase = word.toLowerCase();
-			
-			sortedMap = SortResultsByRank.sortByRank(as, phrase);			
-			Search.printResult(sortedMap,numberofResults);
-			break;
+	public static void searchSimillar(String keyword,int numberofResults,PreSearch ps, int flag) {
+		if(flag==2) {
+			HashMap<String,Integer> sortedDistance = sortByEditDistance(keyword,ps);
+			Iterator<Entry<String, Integer>> iterator2 = sortedDistance.entrySet().iterator();  
+			while(iterator2.hasNext())   
+			{  			
+				Map.Entry<String, Integer> me = (Map.Entry<String, Integer>)iterator2.next();
+				String word = me.getKey().toString();			
+				System.out.println("Instead showing results for : "+word);
+
+				//Searching for the word with lowest distance.
+				Map<String,Integer> sortedMap;
+				ArrayList<String> as = ps.find(word);
+				String phrase = word.toLowerCase();
+
+				sortedMap = SortResultsByRank.sortByRank(as, phrase);			
+				Search.printResult(sortedMap,numberofResults);
+				break;
+			}
 		}
-		
 	}
 }
